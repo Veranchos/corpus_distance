@@ -1,6 +1,23 @@
 def get_words(corpus):
     return [row[0] for row in corpus]
 
+def ipm(corpus):
+    words_counter = 0
+    for row in corpus:
+        occurrence = row[1]
+        words_counter += occurrence
+
+    factor = (words_counter / 1000000)
+    corpus_ipm = [[word, occurrence / factor] for word, occurrence in corpus]
+
+    return corpus_ipm
+
+def normalize_corpora(corpus1, corpus2):
+    corpus_ipm1 = ipm(corpus1)
+    corpus_ipm2 = ipm(corpus2)
+
+    return union_words(corpus_ipm1, corpus_ipm2)
+
 
 def get_sorted_union_corpora(corpus1, corpus2):
     words1 = get_words(corpus1)
@@ -25,7 +42,7 @@ def get_sorted_union_corpora(corpus1, corpus2):
 
     sorted_corpora = sorted(word_occurrences.items(), key=lambda row: sum(row[1]), reverse=True)
 
-    return sorted_corpora
+    return sorted_corpora # [ [word, [occurrence1, occurrence2]], ... ]
 
 
 def union_words(corpus1, corpus2):
