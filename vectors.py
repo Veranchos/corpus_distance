@@ -1,4 +1,4 @@
-from scipy import spatial
+from scipy import spatial, stats
 
 
 def compare_vectors_distance(vector1, vector2):
@@ -22,3 +22,11 @@ def compare_sub_vectors_distance(vector1, vector2, interval, step):
         distance_list.append(distance)
 
     return distance_list
+
+def compare_vectors_distance_2(vector1, vector2):
+    return spatial.distance.euclidean(vector1, vector2)
+
+
+def manhattan_distance(vector1, vector2):
+    return sum(abs(a - b) for a, b in zip(vector1, vector2))
+
