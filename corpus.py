@@ -1,3 +1,5 @@
+from math import ceil
+
 def get_words(corpus):
     return [row[0] for row in corpus]
 
@@ -69,3 +71,21 @@ def create_vectors(corpus1, corpus2):
             vector2.append(occurrences[1])
 
         return [vector1, vector2]
+
+def calculate_N(corpus):
+    summa = corpus[0][1]
+    best_result = 1000000
+    n = 0
+
+    for i in range(1, len(corpus)):
+        median = corpus[ceil(i/2)][1]
+        summa += corpus[i][1]
+        mean = summa/(i+1)
+        i_result = abs(median - mean)
+        print(i, median, mean, i_result, best_result, corpus[i])
+
+        if i_result < best_result:
+            best_result = i_result
+            n = i+1
+
+    return n

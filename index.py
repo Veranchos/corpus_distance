@@ -1,6 +1,6 @@
 from csvReader import read_csv
 from txt_reader import read_txt
-from corpus import create_vectors, normalize_corpora
+from corpus import create_vectors, normalize_corpora, calculate_N
 from vectors import compare_sub_vectors_distance, compare_vectors_distance, calculate_distance_between_vectors_in_interval, compare_vectors_distance_2, manhattan_distance
 from kilgarriff import create_known_similarity_corpora, compare_known_similarity_corpora
 from scipy import stats
@@ -17,8 +17,8 @@ corpus6 = read_txt('antconc_LOTR.txt')
 # c3, c4 = normalize_corpora(corpus3, corpus4)
 c5, c6  = normalize_corpora(corpus5, corpus6)
 
-print(c5)
-print(c6)
+# print(c5)
+# print(c6)
 #
 # vector3, vector4 = create_vectors(c3, c4)
 # # sub_vector_distance = compare_sub_vectors_distance(vector1, vector2, 100, 10)
@@ -61,3 +61,9 @@ print(c6)
 # print(res)
 
 
+# print(calculate_N(c5))
+c = []
+for i in range(len(c5)):
+    c.append([c5[i][0], c5[i][1] + c6[i][1]])
+print(calculate_N(c))
+print(len(c5), len(c6))
