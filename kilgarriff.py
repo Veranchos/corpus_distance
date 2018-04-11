@@ -29,6 +29,13 @@ def compare_known_similarity_corpora(ks_corpora, compare_corpora):
                     if distance2 < distance1:
                         right_counter += 1
                     counter += 1
-    return counter / right_counter
+    return right_counter / counter
+
+
+def compare_measurement(corpus1, corpus2, compare_corpora):
+    ks_corpora = create_known_similarity_corpora(corpus1, corpus2)
+
+    return compare_known_similarity_corpora(ks_corpora, compare_corpora)
+
 
     # return percent of right signs
