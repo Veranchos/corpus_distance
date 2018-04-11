@@ -1,21 +1,10 @@
-from csvReader import read_csv
-from txt_reader import read_txt
-from corpus import create_vectors, normalize_corpora, calculate_N
-from vectors import compare_sub_vectors_distance, compare_vectors_distance, calculate_distance_between_vectors_in_interval, compare_vectors_distance_2, manhattan_distance
-from kilgarriff import create_known_similarity_corpora, compare_known_similarity_corpora
-from scipy import stats
-#
-# corpus1 = read_csv('written_medium_book.csv')
-# corpus2 = read_csv('wl_2018-03-14_23_23_58.csv')
-# corpus3 = read_csv('written_academic_medicine.csv')
-# corpus4 = read_csv('written_fiction_poetry.csv')
+from readers.txt_reader import read_txt
+from corpus import normalize_corpora, calculate_N
 
-corpus5 = read_txt('antconc_HP.txt')
-corpus6 = read_txt('antconc_LOTR.txt')
-#
-# c3, c4 = normalize_corpora(corpus3, corpus4)
-# c3, c4 = normalize_corpora(corpus3, corpus4)
-c5, c6  = normalize_corpora(corpus5, corpus6)
+hp_corpus = read_txt('texts/HP.txt')
+lotr_corpus = read_txt('texts/LOTR.txt')
+
+normalized_hp_corpus, normalized_lotr_corpus = normalize_corpora(hp_corpus, lotr_corpus)
 
 # print(c5)
 # print(c6)
@@ -50,20 +39,3 @@ c5, c6  = normalize_corpora(corpus5, corpus6)
 #
 # vector = [(vector3[index] + vector4[index]) / 2 for index in range(len(vector4))]
 # new_vector = [[vector3[index], vector4[index]] for index in range(len(vector4))]
-#
-# # print(vector)
-# # print(vector3)
-# # print(vector4)
-#
-# res = stats.chisquare([vector3, vector4])
-# # res1 = stats.chisquare(new_vector, vector)
-#
-# print(res)
-
-
-# print(calculate_N(c5))
-c = []
-for i in range(len(c5)):
-    c.append([c5[i][0], c5[i][1] + c6[i][1]])
-print(calculate_N(c))
-print(len(c5), len(c6))

@@ -8,7 +8,7 @@ def create_known_similarity_corpora(corpus1, corpus2):
         sub_corpus = corpus1[:delimiter] + corpus2[delimiter:]
         known_similarity_corpora.append(sub_corpus)
 
-    return known_similarity_corpora # 11 corpora, including corpus1 and corpus2
+    return known_similarity_corpora  # 11 corpora, including corpus1 and corpus2
 
 
 def compare_known_similarity_corpora(ks_corpora, compare_corpora):
@@ -25,14 +25,10 @@ def compare_known_similarity_corpora(ks_corpora, compare_corpora):
 
                     distance1 = compare_corpora(ks_corpora[c], ks_corpora[d])
                     distance2 = compare_corpora(ks_corpora[a], ks_corpora[b])
-                    print([c, d, distance1], [a, b, distance2], distance2 < distance1)
 
                     if distance2 < distance1:
                         right_counter += 1
                     counter += 1
-    return [right_counter, counter]
+    return counter / right_counter
 
-
-
-    # percentage = 0
-    # return percentage # percent of right signs
+    # return percent of right signs

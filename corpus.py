@@ -1,7 +1,9 @@
 from math import ceil
 
+
 def get_words(corpus):
     return [row[0] for row in corpus]
+
 
 def ipm(corpus):
     words_counter = 0
@@ -13,6 +15,7 @@ def ipm(corpus):
     corpus_ipm = [[word, occurrence / factor] for word, occurrence in corpus]
 
     return corpus_ipm
+
 
 def normalize_corpora(corpus1, corpus2):
     corpus_ipm1 = ipm(corpus1)
@@ -71,6 +74,7 @@ def create_vectors(corpus1, corpus2):
             vector2.append(occurrences[1])
 
         return [vector1, vector2]
+
 
 def calculate_N(corpus):
     summa = corpus[0][1]

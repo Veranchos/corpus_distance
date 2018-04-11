@@ -23,6 +23,7 @@ def compare_sub_vectors_distance(vector1, vector2, interval, step):
 
     return distance_list
 
+
 def compare_vectors_distance_2(vector1, vector2):
     return spatial.distance.euclidean(vector1, vector2)
 
