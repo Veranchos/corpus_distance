@@ -46,8 +46,6 @@ def compare_known_similarity_corpora(ks_corpora, compare_corpora):
                     distance1 = compare_corpora(ks_corpora[c], ks_corpora[d])
                     distance2 = compare_corpora(ks_corpora[a], ks_corpora[b])
 
-                    print(distance1, distance2)
-
                     if distance2 < distance1:
                         right_counter += 1
                     counter += 1
