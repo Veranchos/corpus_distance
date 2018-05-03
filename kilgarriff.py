@@ -1,5 +1,7 @@
 from random import shuffle
 PARTS = 10
+p = 0
+CACHE = {}
 
 
 def randomize_words(corpus1, corpus2):
@@ -43,20 +45,63 @@ def compare_known_similarity_corpora(ks_corpora, compare_corpora):
                     if c == a and b == d:
                         continue
 
-                    distance1 = compare_corpora(ks_corpora[c], ks_corpora[d])
-                    distance2 = compare_corpora(ks_corpora[a], ks_corpora[b])
+                    if str(c) + str(d) in CACHE:
+                        distance1 = CACHE[str(c) + str(d)]
+                    else:
+                        distance1 = compare_corpora(ks_corpora[c], ks_corpora[d])
+                        CACHE[str(c) + str(d)] = distance1
+
+                    if str(a) + str(b) in CACHE:
+                        distance2 = CACHE[str(a) + str(b)]
+                    else:
+                        distance2 = compare_corpora(ks_corpora[a], ks_corpora[b])
+                        CACHE[str(a) + str(b)] = distance2
 
                     if distance2 < distance1:
                         right_counter += 1
                     counter += 1
+
+    CACHE.clear()
     return right_counter / counter
 
 
 def compare_measurement(corpus1, corpus2, compare_corpora):
-    c1, c2 = randomize_words(corpus1, corpus2)
-    ks_corpora = create_known_similarity_corpora(c1, c2)
+    # c1, c2 = randomize_words(corpus1, corpus2)
+    ks_corpora = create_known_similarity_corpora(corpus1, corpus2)
 
     return compare_known_similarity_corpora(ks_corpora, compare_corpora)
 
-
     # return percent of right signs
+
+def compare_corpora_on_interval(compare_corpora, interval):
+    def slice_list(l, i):
+        return l[i[0]: i[1]]
+
+    return lambda c1, c2: compare_corpora(slice_list(c1, interval), slice_list(c2, interval))
+
+def ksc_in_intervals(corpus1, corpus2, compare_corpora, interval_length, step):
+
+    iterations = (len(corpus1) - interval_length) // step
+    percents_list = []
+
+    for i in range(iterations):
+        interval = [i * step, interval_length + i * step]
+        percent_on_interval = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, interval))
+
+        percents_list.append(percent_on_interval)
+        print(interval, percent_on_interval, compare_corpora_on_interval(compare_corpora, interval)(corpus1, corpus2))
+
+    return percents_list
+
+def find_best_interval(corpus1, corpus2, compare_corpora):
+    best_interval = 0
+    best_kilgarriff = 0
+    for i in range(1, len(corpus1)):
+        i_kilgarriff = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, [0,i]))
+
+        print(i, i_kilgarriff)
+        if i_kilgarriff > best_kilgarriff:
+            best_kilgarriff = i_kilgarriff
+            best_interval = i
+    return best_interval
+
