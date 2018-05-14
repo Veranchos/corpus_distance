@@ -6,14 +6,14 @@ from vectors import compare_vectors_distance, calculate_distance_between_vectors
 from kilgarriff import compare_measurement, ksc_in_intervals, find_best_interval
 
 
-wmb = read_csv('exported/A0.csv')
-wl = read_csv('exported/A1.csv')
+# wmb = read_csv('exported/A0.csv')
+# wl = read_csv('exported/A1.csv')
 
 hp_corpus = read_txt('texts/HP.txt')
 lotr_corpus = read_txt('texts/LOTR.txt')
 
 normalized_hp_corpus, normalized_lotr_corpus = normalize_corpora(hp_corpus, lotr_corpus)
-normalized_wmb, normalized_wl = normalize_corpora(wmb, wl)
+# normalized_wmb, normalized_wl = normalize_corpora(wmb, wl)
 
 
 def func2(corpus1, corpus2):
@@ -26,13 +26,13 @@ def func2(corpus1, corpus2):
 
 #
 
-print(len(normalized_wl))
+# print(len(normalized_wl))
 
-best_spearman_interval = find_best_interval(normalized_wmb, normalized_wl, compute_spearman)
+best_spearman_interval = find_best_interval(normalized_hp_corpus, normalized_lotr_corpus, compute_spearman)
 print('------')
 print(best_spearman_interval)
-print(compare_measurement(normalized_wmb, normalized_wl, compute_spearman))
-print(ksc_in_intervals(normalized_wmb, normalized_wl, compute_spearman, best_spearman_interval, 10))
+print(compare_measurement(normalized_hp_corpus, normalized_lotr_corpus, compute_spearman))
+print(ksc_in_intervals(normalized_hp_corpus, normalized_lotr_corpus, compute_spearman, best_spearman_interval, 10))
 # print(compare_vectors_distance_between_corpora(wmb[:100], wl[:100]))
 
 
