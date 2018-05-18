@@ -84,12 +84,14 @@ def ksc_in_intervals(corpus1, corpus2, compare_corpora, interval_length, step):
     iterations = (len(corpus1) - interval_length) // step
     percents_list = []
 
+    print(len(corpus1), len(corpus2), interval_length)
+
     for i in range(iterations):
         interval = [i * step, interval_length + i * step]
         percent_on_interval = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, interval))
 
-        percents_list.append(percent_on_interval)
-        print(interval, percent_on_interval, compare_corpora_on_interval(compare_corpora, interval)(corpus1, corpus2))
+        percents_list.append([interval, percent_on_interval])
+        print('ksc-in-intervals', interval, percent_on_interval, compare_corpora_on_interval(compare_corpora, interval)(corpus1, corpus2))
 
     return percents_list
 
@@ -99,7 +101,7 @@ def find_best_interval(corpus1, corpus2, compare_corpora):
     for i in range(1, len(corpus1)):
         i_kilgarriff = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, [0,i]))
 
-        print(i, i_kilgarriff)
+        print('I try to find the best interval:', i, i_kilgarriff)
         if i_kilgarriff > best_kilgarriff:
             best_kilgarriff = i_kilgarriff
             best_interval = i

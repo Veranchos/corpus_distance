@@ -1,5 +1,5 @@
 from math import ceil
-
+import numpy as np
 
 def get_words(corpus):
     return [row[0] for row in corpus]
@@ -15,6 +15,15 @@ def ipm(corpus):
     corpus_ipm = [[word, occurrence / factor] for word, occurrence in corpus]
 
     return corpus_ipm
+
+def relativization(vector):
+    words_counter = 0
+    for occurrence in vector:
+        words_counter += occurrence
+
+    relative_freq = [occurrence / words_counter for occurrence in vector]
+    return(relative_freq)
+
 
 
 def normalize_corpora(corpus1, corpus2):
@@ -63,7 +72,7 @@ def union_words(corpus1, corpus2):
     return [new_corpus1, new_corpus2]
 
 
-def create_vectors(corpus1, corpus2):
+def create_vectors(corpus1, corpus2):  #deprecated
         corpora = get_sorted_union_corpora(corpus1, corpus2)
 
         vector1 = []
@@ -93,3 +102,9 @@ def calculate_N(corpus):
             n = i+1
 
     return n
+
+
+
+
+
+
