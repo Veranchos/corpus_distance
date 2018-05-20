@@ -5,8 +5,9 @@ from nltk.tokenize import RegexpTokenizer
 
 import csv
 
-# bnc_reader = BNCCorpusReader(root='./2554/2554/download/Texts/', fileids=r'[A-K]/\w*/\w*\.xml')
-bnc_reader = BNCCorpusReader(root='./2554/2554/download/Texts/', fileids=r'A/A1/\w*\.xml')
+# bnc_reader = BNCCorpusReader(root='./BNC/texts/', fileids=r'A\/(A1\/A1[D-Z]|A2\/\w*|A3\/\w*|A4\/\w*|A5\/A5[0-9A-X]).xml') W_newsp_brndsht
+# bnc_reader = BNCCorpusReader(root='./BNC/texts/', fileids=r'C\/CB\/CB[U-Y].xml') W_commerce
+# bnc_reader = BNCCorpusReader(root='./BNC/texts/', fileids=r'C\/(CN\/CN[A-Z]|CP\/\w*|CR\/CR[0-5]).xml') # W_app_science
 tokenizer = RegexpTokenizer(r'\w+')
 
 
@@ -20,7 +21,7 @@ fdist1 = FreqDist(tokens).items()
 
 sorted_fdist = sorted(fdist1, key=lambda item: item[1], reverse=True)
 
-csvfile = "./exported/A1.csv"
+csvfile = "./exported/W_app_science.csv"
 
 with open(csvfile, "w", encoding='utf-8') as output:
     writer = csv.writer(output, lineterminator='\n')

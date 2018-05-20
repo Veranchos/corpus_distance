@@ -4,6 +4,12 @@ from scipy import spatial, stats
 def compare_vectors_distance(vector1, vector2):
     return spatial.distance.cosine(vector1, vector2)
 
+def calculate_vectors_distance(corpus1, corpus2):
+    vector1 = [value for key, value in corpus1]
+    vector2 = [value for key, value in corpus2]
+
+    return compare_vectors_distance(vector1, vector2)
+
 
 def calculate_distance_between_vectors_in_interval(vector1, vector2, interval):
     interval_start, interval_end = interval

@@ -1,7 +1,6 @@
 from random import shuffle
 PARTS = 10
 p = 0
-CACHE = {}
 
 
 def randomize_words(corpus1, corpus2):
@@ -34,6 +33,7 @@ def create_known_similarity_corpora(random_corpus1, random_corpus2):
 
 
 def compare_known_similarity_corpora(ks_corpora, compare_corpora):
+    CACHE = {}
     corpora_length = len(ks_corpora)
     counter = 0
     right_counter = 0
@@ -88,20 +88,23 @@ def ksc_in_intervals(corpus1, corpus2, compare_corpora, interval_length, step):
 
     for i in range(iterations):
         interval = [i * step, interval_length + i * step]
-        percent_on_interval = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, interval))
+        comparator = compare_corpora_on_interval(compare_corpora, interval)
+        percent_on_interval = compare_measurement(corpus1, corpus2, comparator)
+        distance = comparator(corpus1, corpus2)
 
-        percents_list.append([interval, percent_on_interval])
-        print('ksc-in-intervals', interval, percent_on_interval, compare_corpora_on_interval(compare_corpora, interval)(corpus1, corpus2))
+        print('ksc-in-intervals', interval, percent_on_interval, distance)
+
+        percents_list.append([interval, percent_on_interval, distance])
 
     return percents_list
 
 def find_best_interval(corpus1, corpus2, compare_corpora):
     best_interval = 0
     best_kilgarriff = 0
-    for i in range(1, len(corpus1)):
+    for i in range(26780, len(corpus1)):
         i_kilgarriff = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, [0,i]))
 
-        print('I try to find the best interval:', i, i_kilgarriff)
+        print('I try to find the best interval:', i, i_kilgarriff, compare_corpora_on_interval(compare_corpora, [0,i])(corpus1, corpus2))
         if i_kilgarriff > best_kilgarriff:
             best_kilgarriff = i_kilgarriff
             best_interval = i

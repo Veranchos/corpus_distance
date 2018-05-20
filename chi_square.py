@@ -11,7 +11,10 @@ def create_contingency_table(vector1, vector2, n):
 
     return np.array([relativization(n_vector1), relativization(n_vector2)]).T
 
-def chi_square(vector1, vector2):
+def chi_square(corpus1, corpus2):
+    vector1 = [value for key, value in corpus1]
+    vector2 = [value for key, value in corpus2]
+
     obs = create_contingency_table(vector1, vector2, 2)
-    result = chisquare(obs)
+    result = chisquare(obs, axis=None)
     return(result)
