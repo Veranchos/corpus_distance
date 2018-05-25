@@ -101,12 +101,16 @@ def ksc_in_intervals(corpus1, corpus2, compare_corpora, interval_length, step):
 def find_best_interval(corpus1, corpus2, compare_corpora):
     best_interval = 0
     best_kilgarriff = 0
-    for i in range(26780, len(corpus1)):
+    for i in range(1, len(corpus1), 10):
         i_kilgarriff = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, [0,i]))
 
         print('I try to find the best interval:', i, i_kilgarriff, compare_corpora_on_interval(compare_corpora, [0,i])(corpus1, corpus2))
         if i_kilgarriff > best_kilgarriff:
             best_kilgarriff = i_kilgarriff
             best_interval = i
+
+            if best_kilgarriff == 1:
+                return best_interval
+
     return best_interval
 

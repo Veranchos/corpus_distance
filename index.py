@@ -8,10 +8,9 @@ from chi_square import create_contingency_table, chi_square
 from euclidean import euclidean
 from manhattan import manhattan
 import csv
-#
 
-corpus1 = read_csv('exported/W_app_science.csv')
-corpus2 = read_csv('exported/W_commerce.csv')
+corpus1 = read_csv('exported/TOD.csv')
+corpus2 = read_csv('exported/SCO.csv')
 
 n_corpus1, n_corpus2 = normalize_corpora(corpus1, corpus2)
 
@@ -21,40 +20,37 @@ def compute_a_result(corpus1, corpus2, measurement):
 
     return result
 
+csvfile = "./results/TOD-SCO500/spearman.csv"
+result = compute_a_result(n_corpus1, n_corpus2, compute_spearman) # 45571
 
-# csvfile = "./results/science-commerce/spearman.csv"
-# result = compute_a_result(n_corpus1, n_corpus2, compute_spearman)
-#
-# with open(csvfile, "w", encoding='utf-8') as output:
-#     writer = csv.writer(output, lineterminator='\n')
-#     writer.writerows(result)
-# # #
-# csvfile1 = "./results/science-commerce/vectors_true.csv"
-# result1 = compute_a_result(n_corpus1, n_corpus2, euclidean)
+with open(csvfile, "w", encoding='utf-8') as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(result)
 
-# with open(csvfile1, "w", encoding='utf-8') as output:
-#     writer = csv.writer(output, lineterminator='\n')
-#     writer.writerows(result1)
+csvfile1 = "./results/TOD-SCO500/euclidean.csv"
+result1 = compute_a_result(n_corpus1, n_corpus2, euclidean)
 
-# csvfile2 = "./results/science-commerce/manhattan.csv"
-# result2 = compute_a_result(n_corpus1, n_corpus2, manhattan)
-#
-# with open(csvfile2, "w", encoding='utf-8') as output:
-#     writer = csv.writer(output, lineterminator='\n')
-#     writer.writerows(result2)
-#
-# csvfile3 = "./results/science-commerce/vectors.csv"
-# result3 = compute_a_result(n_corpus1, n_corpus2, calculate_vectors_distance)
-#
-# with open(csvfile3, "w", encoding='utf-8') as output:
-#     writer = csv.writer(output, lineterminator='\n')
-#     writer.writerows(result3)
-#
-# csvfile4 = "./results/science-commerce/chi_square.csv"
-# result4 = compute_a_result(n_corpus1, n_corpus2, chi_square)
-#
-# with open(csvfile4, "w", encoding='utf-8') as output:
-#     writer = csv.writer(output, lineterminator='\n')
-#     writer.writerows(result4)
+with open(csvfile1, "w", encoding='utf-8') as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(result1)
 
-# print(len(n_corpus1))
+csvfile2 = "./results/TOD-SCO500/manhattan.csv"
+result2 = compute_a_result(n_corpus1, n_corpus2, manhattan)
+
+with open(csvfile2, "w", encoding='utf-8') as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(result2)
+
+csvfile3 = "./results/TOD-SCO500/cosine.csv"
+result3 = compute_a_result(n_corpus1, n_corpus2, calculate_vectors_distance)
+
+with open(csvfile3, "w", encoding='utf-8') as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(result3)
+
+csvfile4 = "./results/TOD-SCO500/chi_square.csv"
+result4 = compute_a_result(n_corpus1, n_corpus2, chi_square)
+
+with open(csvfile4, "w", encoding='utf-8') as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(result4)
