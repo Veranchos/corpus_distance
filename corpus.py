@@ -21,8 +21,11 @@ def relativization(vector):
     for occurrence in vector:
         words_counter += occurrence
 
+    if (words_counter == 0):
+        return [0 for occurence in vector]
+
     relative_freq = [occurrence / words_counter for occurrence in vector]
-    return(relative_freq)
+    return relative_freq
 
 
 
