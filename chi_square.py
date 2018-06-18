@@ -20,6 +20,4 @@ def chi_square(corpus1, corpus2, interval):
 
     chi2= sum(chisquare(obs).statistic)
 
-    print(chi2)
-
     return chi2

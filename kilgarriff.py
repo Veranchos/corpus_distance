@@ -3,7 +3,7 @@ from nltk.probability import FreqDist
 from corpus import normalize_corpora
 import numpy
 
-PARTS = 10
+PARTS = 11
 p = 0
 
 
@@ -33,10 +33,21 @@ def create_wordlist(tokens):
 
 def create_known_similarity_corpora(corpus1, corpus2):
     known_similarity_corpora = []
-    for i in range(PARTS + 1):
-        sub_corpus = corpus1[i*len(corpus1)//PARTS:] + corpus2[:i*len(corpus2)//PARTS]
+    pieces = sum([i for i in range(PARTS)])
+
+    start1 = 0
+    end1 = 0
+    start2 = 0
+    end2 = PARTS - 1
+
+    for i in range(1, PARTS+1):
+        sub_corpus = corpus1[start1*len(corpus1)//pieces:end1*len(corpus1)//pieces] + \
+                     corpus2[start2*len(corpus2)//pieces:end2*len(corpus2)//pieces]
 
         known_similarity_corpora.append(create_wordlist(sub_corpus))
+
+        start1, end1 = end1, end1 + i
+        start2, end2 = end2, end2 + (PARTS - i - 1)
 
     return known_similarity_corpora  # 11 corpora, including corpus1 and corpus2
 
@@ -68,11 +79,9 @@ def compare_known_similarity_corpora(ks_corpora, compare_corpora):
                         distance2 = compare_corpora(corpus_a, corpus_b)
                         CACHE[str(a) + str(b)] = distance2
 
-                    # print(distance2, distance1)
                     if distance2 < distance1:
                         right_counter += 1
                     counter += 1
-                    # print(right_counter, counter)
 
     CACHE.clear()
     return right_counter / counter
@@ -95,26 +104,30 @@ def ksc_in_intervals(corpus1, corpus2, compare_corpora, interval_length, step):
 
     print(len(corpus1), len(corpus2), interval_length)
 
-    for i in range(iterations):
+    for i in range(400):
         interval = [i * step, interval_length + i * step]
         comparator = compare_corpora_on_interval(compare_corpora, interval)
         percent_on_interval = compare_measurement(corpus1, corpus2, comparator)
-        # distance = comparator(corpus1, corpus2)
+        n_corpus1, n_corpus2 = normalize_corpora(create_wordlist(corpus1), create_wordlist(corpus2))
+        distance = comparator(n_corpus1, n_corpus2)
 
-        print('ksc-in-intervals', interval, percent_on_interval)
+        print('ksc-in-intervals', interval, percent_on_interval, distance)
 
-        percents_list.append([interval, percent_on_interval])
+        percents_list.append([interval, percent_on_interval, distance])
 
     return percents_list
 
 def find_best_interval(corpus1, corpus2, compare_corpora):
     best_interval = 0
     best_kilgarriff = 0
-    for i in range(1, len(corpus1), 10):
-        print(i)
-        i_kilgarriff = compare_measurement(corpus1, corpus2, compare_corpora_on_interval(compare_corpora, [0,i]))
 
-        print('I try to find the best interval:', i, i_kilgarriff, compare_corpora_on_interval(compare_corpora, [0,i])(corpus1, corpus2))
+    n_corpus1, n_corpus2 = normalize_corpora(create_wordlist(corpus1), create_wordlist(corpus2))
+    print(len(n_corpus1))
+    for i in range(1, len(n_corpus1), 10):
+        comparator = compare_corpora_on_interval(compare_corpora, [0,i])
+        i_kilgarriff = compare_measurement(corpus1, corpus2, comparator)
+
+        print('I try to find the best interval:', i, i_kilgarriff, comparator(n_corpus1, n_corpus2))
         if i_kilgarriff > best_kilgarriff:
             best_kilgarriff = i_kilgarriff
             best_interval = i

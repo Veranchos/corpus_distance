@@ -13,6 +13,6 @@ def compute_spearman (corpus1, corpus2, interval):
 
     # print(result)
 
-    return result
+    return 1 - result.correlation
 
 
